@@ -13,15 +13,9 @@ function App() {
                         <Filter />
                         <h2 className="content__title">Все пиццы</h2>
                         <div className="content__items">
-                            <PizzaBlock />
-                            <PizzaBlock />
-                            <PizzaBlock />
-                            <PizzaBlock />
-                            <PizzaBlock />
-                            <PizzaBlock />
-                            <PizzaBlock />
-                            <PizzaBlock />
-                            <PizzaBlock />
+                            <PizzaBlock title={"Пицца-ролл"} price={500} />
+                            <PizzaBlock title={"Пицца-ролл"} price={500} />
+                            <PizzaBlock title={"Пицца-ролл"} price={500} />
                         </div>
                     </div>
                 </div>
