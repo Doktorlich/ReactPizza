@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Filter.scss";
 import Sorting from "./Sorting/Sorting";
 import Category from "./Category/Category";
+
 // ! доделать переключение по категориям
 // ! найти способ как взаимодействовать через useState со стилизацией компонента., установить динамическую стилизацию
 const CATEGORIES = [
@@ -28,7 +29,11 @@ const Filter = () => {
                         <Category
                             key={category.id}
                             id={category.id}
-                            className={+activeIndexFilter === +category.id ? "active" : ""}
+                            className={
+                                activeIndexFilter.toString() === category.id.toString()
+                                    ? "active"
+                                    : ""
+                            }
                             title={category.title}
                         />
                     ))}
