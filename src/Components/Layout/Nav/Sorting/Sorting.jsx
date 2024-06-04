@@ -1,8 +1,17 @@
 import "./Sorting.scss";
 
-import React from "react";
+import React, { useState } from "react";
 
+const LIST_SORT = ["популярности", "цене", "алфавиту"];
 const Sorting = () => {
+    const [visibleElem, setVisibleElem] = useState(false);
+    const [sortName, setSortName] = useState("популярности");
+    const [sortActive, setSortActive] = useState(0);
+    const showSortBlockHandler = function (event) {
+        setVisibleElem(!visibleElem);
+        setSortName(event.target.innerText);
+    };
+
     return (
         <div className="sort">
             <div className="sort__label">
@@ -19,15 +28,24 @@ const Sorting = () => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>популярности</span>
+                <span onClick={showSortBlockHandler}>{sortName}</span>
             </div>
-            <div className="sort__popup">
-                <ul>
-                    <li className="active">популярности</li>
-                    <li>цене</li>
-                    <li>алфавиту</li>
-                </ul>
-            </div>
+            {visibleElem && (
+                <div className="sort__popup" onClick={showSortBlockHandler}>
+                    <ul>
+                        {LIST_SORT.map((name, index) => (
+                            <li
+                                onClick={() => {
+                                    setSortActive(index);
+                                }}
+                                className={sortActive === index ? "active" : ""}
+                            >
+                                {name}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 };
