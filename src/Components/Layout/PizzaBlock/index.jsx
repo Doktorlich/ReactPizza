@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./PizzaBlock.scss";
+
 
 const PizzaBlock = (props) => {
     const [amountOrders, setAmountOrders] = useState(0);

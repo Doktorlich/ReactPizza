@@ -1,6 +1,6 @@
 import IconCartSvg from "../../../Assets/IconCartSvg";
 import pizzaLogo from "../../../Assets/img/pizza-logo.svg";
-import "./Header.scss";
+
 import React from "react";
 import { Link } from "react-router-dom";
 const Header = () => {

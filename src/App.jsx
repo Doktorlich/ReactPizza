@@ -1,4 +1,4 @@
-import Header from "./Components/Layout/Header/Header";
+import Header from "./Components/Layout/Header";
 
 import Cart from "./Components/Pages/Cart";
 import Home from "./Components/Pages/Home";
@@ -24,5 +24,4 @@ function App() {
         </>
     );
 }
-
 export default App;

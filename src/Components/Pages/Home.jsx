@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Filter from "../Layout/Nav/Filter";
-import PizzaBlock from "../Layout/PizzaBlock/PizzaBlock";
+import PizzaBlock from "../Layout/PizzaBlock";
 import PizzaBlockSceleton from "../Skeleton/PizzaBlockSceleton";
 
 const Home = () => {
