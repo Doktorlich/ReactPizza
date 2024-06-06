@@ -12,7 +12,7 @@ const PizzaBlock = (props) => {
     const typesName = ["тонкое", "традиционное"];
     return (
         <>
-            <div className="pizza-block">
+            <li className="pizza-block">
                 <img className="pizza-block__image" src={props.imageUrl} alt="Pizza" />
                 <h4 className="pizza-block__title">{props.title}</h4>
                 <div className="pizza-block__selector">
@@ -61,7 +61,7 @@ const PizzaBlock = (props) => {
                         <i>{amountOrders}</i>
                     </button>
                 </div>
-            </div>
+            </li>
         </>
     );
 };

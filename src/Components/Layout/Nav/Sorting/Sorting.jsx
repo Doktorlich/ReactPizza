@@ -35,6 +35,7 @@ const Sorting = () => {
                     <ul>
                         {LIST_SORT.map((name, index) => (
                             <li
+                                key={name}
                                 onClick={() => {
                                     setSortActive(index);
                                 }}
