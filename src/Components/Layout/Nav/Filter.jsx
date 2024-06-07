@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import "./Filter.scss";
+
 import Sorting from "./Sorting/Sorting";
 import Category from "./Category/Category";
 
-// ! доделать переключение по категориям
-// ! найти способ как взаимодействовать через useState со стилизацией компонента., установить динамическую стилизацию
+import SelectCategory from "../SelectCategory/SelectCategory";
+
 const CATEGORIES = [
     { id: 0, title: "Все" },
     { id: 1, title: "Мясные" },
@@ -21,9 +21,13 @@ const Filter = () => {
         }
         return;
     };
+    const createCategoryList = () => {
+        return;
+    };
     return (
         <div className="content__top">
             <div className="categories">
+                <SelectCategory categoriesData={CATEGORIES} />
                 <ul className="ul-filter" onClick={changeCategoryHandler}>
                     {CATEGORIES.map((category) => (
                         <Category

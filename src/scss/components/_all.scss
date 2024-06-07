@@ -3,3 +3,56 @@
 @import "./categories.scss";
 @import "./sort.scss";
 @import "./pizza-block.scss";
+
+.categories .burger-menu {
+    display: none;
+    width: 250px;
+    height: 60px;
+    font-weight: 700;
+    font-size: 21px;
+    border-radius: 10px;
+    background-color: #fe5f1e;
+    color: #fff;
+    cursor: pointer;
+}
+.burger-menu__elem {
+    color: #fff;
+    font-weight: 700;
+    font-size: 21px;
+}
+
+@media (max-width: 1300px) {
+    .categories .ul-filter {
+        display: none;
+    }
+    .categories .burger-menu {
+        display: flex;
+    }
+}
+
+@media (max-width: 1050px) {
+    .content .content__items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 768px) {
+    .content .content__items {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (max-width: 705px) {
+    .container .content__top {
+        flex-wrap: wrap;
+    }
+    .sort {
+        margin-top: 50px;
+    }
+    .categories .burger-menu {
+    }
+    .total-amount, .button__delimiter {
+        display: none;
+    }
+}
+@media (max-width: 1300px) {
+}

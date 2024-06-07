@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Filter from "../Layout/Nav/Filter";
 import PizzaBlock from "../Layout/PizzaBlock";
-import PizzaBlockSceleton from "../Skeleton/PizzaBlockSceleton";
+import PizzaBlockSceleton from "../Skeleton/PizzaBlockSkeleton";
 
 const Home = () => {
     const [items, setItems] = useState([]);

@@ -1,7 +1,7 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
 
-const PizzaBlockSeleton = (props) => (
+const PizzaBlockSkeleton = (props) => (
     <ContentLoader
         className="pizza-block"
         speed={2}
@@ -21,11 +21,4 @@ const PizzaBlockSeleton = (props) => (
     </ContentLoader>
 );
 
-export default PizzaBlockSeleton;
-/*
-280 24
-280 85
-89 27
-152 45
-
-*/
+export default PizzaBlockSkeleton;
