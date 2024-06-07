@@ -20,7 +20,11 @@
     font-weight: 700;
     font-size: 21px;
 }
-
+@media (max-width: 1400px) {
+    .content .content__items {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
 @media (max-width: 1300px) {
     .categories .ul-filter {
         display: none;
@@ -50,9 +54,8 @@
     }
     .categories .burger-menu {
     }
-    .total-amount, .button__delimiter {
+    .total-amount,
+    .button__delimiter {
         display: none;
     }
-}
-@media (max-width: 1300px) {
 }
