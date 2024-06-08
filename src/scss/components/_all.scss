@@ -27,10 +27,10 @@
 }
 @media (max-width: 1300px) {
     .categories .ul-filter {
-        display: none;
-    }
-    .categories .burger-menu {
-        display: flex;
+        flex-direction: column;
+        li {
+            margin-bottom: 10px;
+        }
     }
 }
 
