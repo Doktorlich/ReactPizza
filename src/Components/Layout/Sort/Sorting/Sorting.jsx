@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import IconArrowSort from "../../../../Assets/Arrow/IconArrowSort";
+import IconArrowSort from "../../../Svg/Arrow/IconArrowSort";
 
 // const LIST_SORT = ["популярности", "цене", "алфавиту"];
 const LIST_SORT = [

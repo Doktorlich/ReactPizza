@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Filter from "../Layout/Sort/Filter/Filter";
 import PizzaBlock from "../Layout/PizzaBlock";
-import PizzaBlockSceleton from "../Skeleton/PizzaBlockSkeleton";
+import PizzaBlockSkeleton from "../Skeleton/PizzaBlockSkeleton";
 import Sorting from "../Layout/Sort/Sorting/Sorting";
 // const PROPERTIES_SORT = ["rating", "price", "title"];
 const PROPERTIES_SORT = [
@@ -12,7 +12,7 @@ const PROPERTIES_SORT = [
     { sortOrder: "asc", title: "title" },
     { sortOrder: "desc", title: "title" },
 ];
-const Home = () => {
+const Home = ({ valueSearch, setValueSearch }) => {
     // состояния для работы с fetch
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -51,9 +51,21 @@ const Home = () => {
     // функция для изменения состояния компонента сортировки
     const sortingValueHandler = function (value) {
         setSortingValue(value);
-        console.log(sortingValue);
     };
-
+    const pizzaItems = items
+        .filter((item) => {
+            if (item.title.toLowerCase().includes(valueSearch.trim().toLowerCase())) {
+                return true;
+            } else {
+                return false;
+            }
+        })
+        .map((pizza) => {
+            return <PizzaBlock key={pizza.id} {...pizza} />;
+        });
+    const skeletons = [...Array(12)].map((_, index) => {
+        return <PizzaBlockSkeleton key={index} />;
+    });
     return (
         <div className="container">
             <div className="content__top">
@@ -72,17 +84,13 @@ const Home = () => {
                 />
             </div>
             <h2 className="content__title">Все пиццы</h2>
-            <ul className="content__items">
-                {isLoading
-                    ? [...Array(12)].map((_, index) => {
-                          return <PizzaBlockSceleton key={index} />;
-                      })
-                    : items.map((pizza) => {
-                          return <PizzaBlock key={pizza.id} {...pizza} />;
-                      })}
-            </ul>
+            <ul className="content__items">{isLoading ? skeletons : pizzaItems}</ul>
         </div>
     );
 };
 
 export default Home;
+/* 
+ 
+
+*/

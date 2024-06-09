@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 const PizzaBlock = (props) => {
     const [amountOrders, setAmountOrders] = useState(0);
     const addAmountOrdersHandler = function (prevState) {

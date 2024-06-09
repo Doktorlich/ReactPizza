@@ -21,7 +21,6 @@ const Filter = ({ onValueChange, filterValue }) => {
     return (
         <>
             <div className="categories">
-                <SelectCategory categoriesData={CATEGORIES} />
                 <ul className="ul-filter" onClick={changeCategoryHandler}>
                     {CATEGORIES.map((category) => (
                         <Category

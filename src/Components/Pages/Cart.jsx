@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import IconCartSvg from "../../Assets/IconCartSvg";
-import IconCartBoxSvg from "../../Assets/IconCartBoxSvg";
-import IconArrowSvg from "../../Assets/Arrow/IconArrowSvg";
-import IconMinusSvg from "../../Assets/IconMinusSvg";
-import IconPlusSvg from "../../Assets/IconPlusSvg";
-import IconCrossSvg from "../../Assets/IconCrossSvg";
+import IconCartSvg from "../Svg/IconCartSvg";
+import IconCartBoxSvg from "../Svg/IconCartBoxSvg";
+import IconArrowSvg from "../Svg/Arrow/IconArrowSvg";
+import IconMinusSvg from "../Svg/IconMinusSvg";
+import IconPlusSvg from "../Svg/IconPlusSvg";
+import IconCrossSvg from "../Svg/IconCrossSvg";
 const Cart = () => {
     return (
         <>
@@ -24,7 +24,11 @@ const Cart = () => {
                     <ul className="content-cart__items">
                         <li className="cart__item">
                             <div className="cart__item-img">
-                                <img className="pizza-block__image" src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg" alt="Pizza" />
+                                <img
+                                    className="pizza-block__image"
+                                    src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+                                    alt="Pizza"
+                                />
                             </div>
                             <div className="cart__item-info">
                                 <h3>Сырный цыпленок</h3>
