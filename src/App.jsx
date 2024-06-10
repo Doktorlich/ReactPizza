@@ -8,6 +8,7 @@ import NotFound from "./Components/Pages/NotFound";
 import "./scss/app.scss";
 import { Routes, Route } from "react-router-dom";
 
+
 function App() {
     const [valueSearch, setValueSearch] = useState("");
 
@@ -27,6 +28,7 @@ function App() {
                         <Route path="/not-found" element={<NotFound />} />
                         <Route path="*" element={<div>Not found</div>} />
                     </Routes>
+                   
                 </div>
             </div>
         </>

@@ -10,8 +10,9 @@ const CATEGORIES = [
     { id: 4, title: "Острые" },
     { id: 5, title: "Закрытые" },
 ];
-const Filter = ({ onValueChange, filterValue }) => {
+const Filter = ({ onValueChange, filterValue, setPagCurrent }) => {
     const changeCategoryHandler = function (event) {
+        setPagCurrent("1");
         if (event.target.hasAttribute("id")) {
             onValueChange(event.target.id);
         }
@@ -26,9 +27,7 @@ const Filter = ({ onValueChange, filterValue }) => {
                         <Category
                             key={category.id}
                             id={category.id}
-                            className={
-                                filterValue.toString() === category.id.toString() ? "active" : ""
-                            }
+                            className={filterValue.toString() === category.id.toString() ? "active" : ""}
                             title={category.title}
                             onClick={() => {
                                 onValueChange(category.id);

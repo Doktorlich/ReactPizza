@@ -3,6 +3,7 @@ import Filter from "../Layout/Sort/Filter/Filter";
 import PizzaBlock from "../Layout/PizzaBlock";
 import PizzaBlockSkeleton from "../Skeleton/PizzaBlockSkeleton";
 import Sorting from "../Layout/Sort/Sorting/Sorting";
+import Pagination from "../Pagination/Pagination";
 // const PROPERTIES_SORT = ["rating", "price", "title"];
 const PROPERTIES_SORT = [
     { sortOrder: "asc", title: "rating" },
@@ -20,20 +21,23 @@ const Home = ({ valueSearch, setValueSearch }) => {
     const [filterValue, setFilterValue] = useState(0);
     const [sortingValue, setSortingValue] = useState(0);
     const url = "https://666001a65425580055b1b88f.mockapi.io/items";
+    const search = valueSearch ? `&search=${valueSearch}` : "";
+    //  состояние дляпагинации
+    const [pagCurrent, setPagCurrent] = useState("1");
+    // переменная с помощью которой задаем количество отображаемых элементов на одной странице
+    const nmbr = 2;
+    // делим длинну массива элементов на число отображаемых элементов, и округляем в большую сторону
+    const amountPages = Math.ceil(items.length / nmbr);
+    const startIndex = (pagCurrent - 1) * nmbr;
+    const endIndex = startIndex + nmbr;
+    const DataPerPage = items.slice(startIndex, endIndex);
 
-    // ?sortBy=price&
     useEffect(() => {
         setIsLoading(true);
         fetch(
             filterValue == 0
-                ? url +
-                      `?order=${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${
-                          PROPERTIES_SORT[+sortingValue].title
-                      }`
-                : url +
-                      `?${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${
-                          PROPERTIES_SORT[+sortingValue].title
-                      }&category=${filterValue}`,
+                ? url + `?order=${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}` + search
+                : url + `?${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}&category=${filterValue}` + search,
         )
             .then((res) => {
                 return res.json();
@@ -43,7 +47,7 @@ const Home = ({ valueSearch, setValueSearch }) => {
                 setIsLoading(false);
             });
         window.scrollTo(0, 0);
-    }, [filterValue, sortingValue]);
+    }, [filterValue, sortingValue, valueSearch]);
     // функция для изменения состояния фильтр компонента
     const filterValueHandler = function (id) {
         setFilterValue(id);
@@ -52,17 +56,10 @@ const Home = ({ valueSearch, setValueSearch }) => {
     const sortingValueHandler = function (value) {
         setSortingValue(value);
     };
-    const pizzaItems = items
-        .filter((item) => {
-            if (item.title.toLowerCase().includes(valueSearch.trim().toLowerCase())) {
-                return true;
-            } else {
-                return false;
-            }
-        })
-        .map((pizza) => {
-            return <PizzaBlock key={pizza.id} {...pizza} />;
-        });
+
+    const pizzaItems = DataPerPage.map((pizza) => {
+        return <PizzaBlock key={pizza.id} {...pizza} />;
+    });
     const skeletons = [...Array(12)].map((_, index) => {
         return <PizzaBlockSkeleton key={index} />;
     });
@@ -74,6 +71,7 @@ const Home = ({ valueSearch, setValueSearch }) => {
                         filterValueHandler(value);
                     }}
                     filterValue={filterValue}
+                    setPagCurrent={setPagCurrent}
                 />
 
                 <Sorting
@@ -84,13 +82,11 @@ const Home = ({ valueSearch, setValueSearch }) => {
                 />
             </div>
             <h2 className="content__title">Все пиццы</h2>
+
             <ul className="content__items">{isLoading ? skeletons : pizzaItems}</ul>
+            <Pagination amountPages={amountPages} pagCurrent={pagCurrent} setPagCurrent={setPagCurrent} endIndex={endIndex} />
         </div>
     );
 };
 
 export default Home;
-/* 
- 
-
-*/
