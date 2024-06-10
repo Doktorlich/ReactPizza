@@ -21,11 +21,11 @@ const Home = ({ valueSearch, setValueSearch }) => {
     const [filterValue, setFilterValue] = useState(0);
     const [sortingValue, setSortingValue] = useState(0);
     const url = "https://666001a65425580055b1b88f.mockapi.io/items";
-    const search = valueSearch ? `&search=${valueSearch}` : "";
+    const search = valueSearch ? `&search=${valueSearch}` : "&search=";
     //  состояние дляпагинации
     const [pagCurrent, setPagCurrent] = useState("1");
     // переменная с помощью которой задаем количество отображаемых элементов на одной странице
-    const nmbr = 2;
+    const nmbr = 4;
     // делим длинну массива элементов на число отображаемых элементов, и округляем в большую сторону
     const amountPages = Math.ceil(items.length / nmbr);
     const startIndex = (pagCurrent - 1) * nmbr;
@@ -60,6 +60,7 @@ const Home = ({ valueSearch, setValueSearch }) => {
     const pizzaItems = DataPerPage.map((pizza) => {
         return <PizzaBlock key={pizza.id} {...pizza} />;
     });
+
     const skeletons = [...Array(12)].map((_, index) => {
         return <PizzaBlockSkeleton key={index} />;
     });

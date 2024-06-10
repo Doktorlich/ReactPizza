@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Search from "../Search/Search";
 import IconCartSvg from "../../Svg/IconCartSvg";
-const Header = ({ valueSearch, setValueSearch }) => {
+const Header = () => {
     return (
         <header className="header">
             <div className="container">
@@ -17,7 +17,7 @@ const Header = ({ valueSearch, setValueSearch }) => {
                         </div>
                     </div>
                 </Link>
-                <Search valueSearch={valueSearch} setValueSearch={setValueSearch} />
+                <Search />
                 <div className="header__cart">
                     <Link to="/cart" className="button button--cart">
                         <span className="total-amount">520 ₽</span>
