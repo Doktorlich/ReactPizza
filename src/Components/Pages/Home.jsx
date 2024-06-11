@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Filter from "../Layout/Sort/Filter/Filter";
 import PizzaBlock from "../Layout/PizzaBlock";
 import PizzaBlockSkeleton from "../Skeleton/PizzaBlockSkeleton";
 import Sorting from "../Layout/Sort/Sorting/Sorting";
 import Pagination from "../Pagination/Pagination";
+import SearchContext from "../../Storage/SearchContext";
 // const PROPERTIES_SORT = ["rating", "price", "title"];
 const PROPERTIES_SORT = [
     { sortOrder: "asc", title: "rating" },
@@ -13,7 +14,8 @@ const PROPERTIES_SORT = [
     { sortOrder: "asc", title: "title" },
     { sortOrder: "desc", title: "title" },
 ];
-const Home = ({ valueSearch, setValueSearch }) => {
+const Home = () => {
+    const { valueSearch } = useContext(SearchContext);
     // состояния для работы с fetch
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
