@@ -23,7 +23,7 @@ const Filter = ({ onValueChange, filterValue, setPagCurrent }) => {
         <>
             <div className="categories">
                 <ul className="ul-filter" onClick={changeCategoryHandler}>
-                    {CATEGORIES.map((category) => (
+                    {CATEGORIES.map(category => (
                         <Category
                             key={category.id}
                             id={category.id}

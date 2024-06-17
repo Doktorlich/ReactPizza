@@ -2,20 +2,25 @@
 .pagination li {
     color: black;
     float: left;
-    padding: 8px 16px;
+    padding-block: 9px;
     text-decoration: none;
     transition: background-color 0.3s;
     cursor: pointer;
     user-select: none;
+    width: 40px;
+    height: 40px;
+    text-align: center;
 }
 
 /* Style the active/current link */
 .pagination li.active {
-    background-color: dodgerblue;
+    background-color: #fe5f1e;
     color: white;
+    border-radius: 50%;
 }
 
 /* Add a grey background color on mouse-over */
 .pagination li:hover:not(.active) {
     background-color: #ddd;
+ 
 }

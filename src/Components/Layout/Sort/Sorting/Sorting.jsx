@@ -11,13 +11,20 @@ const LIST_SORT = [
     { arrow: <IconArrowSort rotate="180" />, title: "алфавиту" },
 ];
 
-const Sorting = ({ sortingValue, onValueChange }) => {
-    const [visibleElem, setVisibleElem] = useState(false);
-    const [sortName, setSortName] = useState("популярности");
+import { useSelector, useDispatch } from "react-redux";
+import { setSortName, setSortingValue, setVisibleElem } from "../../../../Redux/slices/filterSlice";
 
+const Sorting = () => {
+    const dispatch = useDispatch();
+    const { visibleElem, sortingValue, sortName } = useSelector(state => state.filter);
+
+    //popup
     const showSortBlockHandler = function (event) {
-        setVisibleElem(!visibleElem);
-        setSortName(event.target.innerText);
+        dispatch(setVisibleElem(!visibleElem));
+        dispatch(setSortName(event.target.innerText));
+    };
+    const valueChangeHandler = value => {
+        dispatch(setSortingValue(value));
     };
 
     return (
@@ -33,7 +40,7 @@ const Sorting = ({ sortingValue, onValueChange }) => {
                             <li
                                 key={index}
                                 onClick={() => {
-                                    onValueChange(index);
+                                    valueChangeHandler(index);
                                 }}
                                 className={sortingValue === index ? "active" : ""}
                             >

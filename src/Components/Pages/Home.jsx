@@ -5,6 +5,13 @@ import PizzaBlockSkeleton from "../Skeleton/PizzaBlockSkeleton";
 import Sorting from "../Layout/Sort/Sorting/Sorting";
 import Pagination from "../Pagination/Pagination";
 import SearchContext from "../../Storage/SearchContext";
+//useSelector схож с логикой useContext
+//useDispatch выполняет установленное действие(actions)
+
+// импортируем методы из наших slice
+import { useSelector, useDispatch } from "react-redux";
+import { setFilterValue } from "../../Redux/slices/filterSlice";
+
 // const PROPERTIES_SORT = ["rating", "price", "title"];
 const PROPERTIES_SORT = [
     { sortOrder: "asc", title: "rating" },
@@ -16,24 +23,24 @@ const PROPERTIES_SORT = [
 ];
 const Home = () => {
     const { valueSearch } = useContext(SearchContext);
+    const dispatch = useDispatch();
+    // логика redux для категорий
+    const { filterValue, sortingValue } = useSelector(state => state.filter);
+
     // состояния для работы с fetch
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    // состояния для хранения данных их компонентов filter и  sorting
-    const [filterValue, setFilterValue] = useState(0);
-    const [sortingValue, setSortingValue] = useState(0);
-    const url = "https://666001a65425580055b1b88f.mockapi.io/items";
-    const search = valueSearch ? `&search=${valueSearch}` : "&search=";
-    //  состояние дляпагинации
-    const [pagCurrent, setPagCurrent] = useState("1");
-    // переменная с помощью которой задаем количество отображаемых элементов на одной странице
-    const nmbr = 4;
-    // делим длинну массива элементов на число отображаемых элементов, и округляем в большую сторону
-    const amountPages = Math.ceil(items.length / nmbr);
-    const startIndex = (pagCurrent - 1) * nmbr;
-    const endIndex = startIndex + nmbr;
-    const DataPerPage = items.slice(startIndex, endIndex);
 
+    // ! ПАГИНАЦИЯ
+    const [pagCurrent, setPagCurrent] = useState("1");
+    const number = 4;
+    const amountPages = Math.ceil(items.length / number);
+    const startIndex = (pagCurrent - 1) * number;
+    const endIndex = startIndex + number;
+    const DataPerPage = items.slice(startIndex, endIndex);
+    // ! работа с FETCH
+    const url = "https://666001a65425580055b1b88f.mockapi.io/items";
+    const search = valueSearch ? `&search=${valueSearch}` : `|search=`;
     useEffect(() => {
         setIsLoading(true);
         fetch(
@@ -41,25 +48,22 @@ const Home = () => {
                 ? url + `?order=${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}` + search
                 : url + `?${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}&category=${filterValue}` + search,
         )
-            .then((res) => {
+            .then(res => {
                 return res.json();
             })
-            .then((data) => {
+            .then(data => {
                 setItems(data);
                 setIsLoading(false);
+            })
+            .catch(error => {
+                console.log("error", error);
             });
         window.scrollTo(0, 0);
     }, [filterValue, sortingValue, valueSearch]);
-    // функция для изменения состояния фильтр компонента
-    const filterValueHandler = function (id) {
-        setFilterValue(id);
-    };
-    // функция для изменения состояния компонента сортировки
-    const sortingValueHandler = function (value) {
-        setSortingValue(value);
-    };
 
-    const pizzaItems = DataPerPage.map((pizza) => {
+    // ! другая логика
+
+    const pizzaItems = DataPerPage.map(pizza => {
         return <PizzaBlock key={pizza.id} {...pizza} />;
     });
 
@@ -69,20 +73,9 @@ const Home = () => {
     return (
         <div className="container">
             <div className="content__top">
-                <Filter
-                    onValueChange={(value) => {
-                        filterValueHandler(value);
-                    }}
-                    filterValue={filterValue}
-                    setPagCurrent={setPagCurrent}
-                />
+                <Filter onValueChange={id => dispatch(setFilterValue(id))} filterValue={filterValue} setPagCurrent={setPagCurrent} />
 
-                <Sorting
-                    onValueChange={(value) => {
-                        sortingValueHandler(value);
-                    }}
-                    sortingValue={sortingValue}
-                />
+                <Sorting />
             </div>
             <h2 className="content__title">Все пиццы</h2>
 
