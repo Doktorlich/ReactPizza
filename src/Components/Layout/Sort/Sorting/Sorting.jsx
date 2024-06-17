@@ -37,13 +37,7 @@ const Sorting = () => {
                 <div className="sort__popup" onClick={showSortBlockHandler}>
                     <ul>
                         {LIST_SORT.map((elemSort, index) => (
-                            <li
-                                key={index}
-                                onClick={() => {
-                                    valueChangeHandler(index);
-                                }}
-                                className={sortingValue === index ? "active" : ""}
-                            >
+                            <li key={index} onClick={() => valueChangeHandler(index)} className={sortingValue === index ? "active" : ""}>
                                 {elemSort.arrow}
                                 {elemSort.title}
                             </li>
