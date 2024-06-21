@@ -5,6 +5,7 @@ const initialState = {
     sortingValue: 0,
     sortName: "популярности",
     visibleElem: false,
+    pagCurrent: 1,
 };
 export const filterSlice = createSlice({
     name: "filter",
@@ -23,9 +24,12 @@ export const filterSlice = createSlice({
         setVisibleElem(state, action) {
             state.visibleElem = action.payload;
         },
+        setPagCurrent(state, action) {
+            state.pagCurrent = action.payload;
+        },
     },
 });
-export const { setFilterValue, setSortingValue, setSortName, setVisibleElem } = filterSlice.actions;
+export const { setFilterValue, setSortingValue, setSortName, setVisibleElem, setPagCurrent } = filterSlice.actions;
 
 export default filterSlice.reducer;
 

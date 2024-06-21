@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "./Search.module.scss";
 import SearchContext from "../../../Storage/SearchContext";
-import debounce from "lodash.debounce";
+
 const Search = () => {
     const { valueSearch, setValueSearch } = useContext(SearchContext);
     const [searchState, setSearchState] = useState("");

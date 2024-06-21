@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import styled from "./Pagination.module.scss";
+import { useDispatch } from "react-redux";
+import { setPagCurrent } from "../../Redux/slices/filterSlice";
 
-const Pagination = ({ amountPages, endIndex, pagCurrent, setPagCurrent }) => {
+const Pagination = ({ amountPages, endIndex, pagCurrent  }) => {
+    const dispatch = useDispatch();
     const movingLeft = function () {
-        setPagCurrent(+pagCurrent === 1 ? pagCurrent : +pagCurrent - 1);
+        dispatch(setPagCurrent(+pagCurrent === 1 ? pagCurrent : +pagCurrent - 1));
     };
     const amountElemPag = document.querySelectorAll("#pag-elem").length;
     const movingRight = function () {
-        setPagCurrent(+pagCurrent === amountElemPag ? pagCurrent : +pagCurrent + 1);
+        dispatch(setPagCurrent(+pagCurrent === amountElemPag ? pagCurrent : +pagCurrent + 1));
     };
 
     return (
@@ -20,7 +23,7 @@ const Pagination = ({ amountPages, endIndex, pagCurrent, setPagCurrent }) => {
                             key={page}
                             id="pag-elem"
                             onClick={() => {
-                                setPagCurrent(page);
+                                dispatch(setPagCurrent(page));
                             }}
                             className={+pagCurrent === +page ? styled["active"] : ""}
                         >

@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Filter from "../Layout/Sort/Filter/Filter";
 import PizzaBlock from "../Layout/PizzaBlock";
 import PizzaBlockSkeleton from "../Skeleton/PizzaBlockSkeleton";
@@ -9,7 +10,7 @@ import SearchContext from "../../Storage/SearchContext";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import { useSelector, useDispatch } from "react-redux";
-import { setFilterValue } from "../../Redux/slices/filterSlice";
+import { setFilterValue, setPagCurrent } from "../../Redux/slices/filterSlice";
 
 const PROPERTIES_SORT = [
     { sortOrder: "asc", title: "rating" },
@@ -23,14 +24,12 @@ const Home = () => {
     const { valueSearch } = useContext(SearchContext);
     const dispatch = useDispatch();
     // логика redux для категорий
-    const { filterValue, sortingValue } = useSelector(state => state.filter);
+    const { filterValue, sortingValue, pagCurrent } = useSelector(state => state.filter);
 
     // состояния для работы с fetch
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     // ! ПАГИНАЦИЯ
-    const [pagCurrent, setPagCurrent] = useState(1);
-
     const number = 4;
     const amountPages = Math.ceil(items.length / number);
     const startIndex = (pagCurrent - 1) * number;
@@ -40,6 +39,7 @@ const Home = () => {
     // ! работа с AXIOS
     const url = "https://666001a65425580055b1b88f.mockapi.io/items";
     const search = valueSearch ? `&search=${valueSearch}` : `&search=`;
+
     useEffect(() => {
         setIsLoading(true);
         axios
