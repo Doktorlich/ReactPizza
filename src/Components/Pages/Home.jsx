@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import Filter from "../Layout/Sort/Filter/Filter";
 import PizzaBlock from "../Layout/PizzaBlock";
 import PizzaBlockSkeleton from "../Skeleton/PizzaBlockSkeleton";
@@ -7,7 +7,7 @@ import Pagination from "../Pagination/Pagination";
 import SearchContext from "../../Storage/SearchContext";
 //клиент-серверная библиотека для выполнения HTTP-запросов
 import axios from "axios";
-
+import debounce from "lodash.debounce";
 import { useSelector, useDispatch } from "react-redux";
 import { setFilterValue } from "../../Redux/slices/filterSlice";
 
@@ -30,13 +30,14 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
     // ! ПАГИНАЦИЯ
     const [pagCurrent, setPagCurrent] = useState(1);
+
     const number = 4;
     const amountPages = Math.ceil(items.length / number);
     const startIndex = (pagCurrent - 1) * number;
     const endIndex = startIndex + number;
     const DataPerPage = items.slice(startIndex, endIndex);
 
-    // ! работа с FETCH
+    // ! работа с AXIOS
     const url = "https://666001a65425580055b1b88f.mockapi.io/items";
     const search = valueSearch ? `&search=${valueSearch}` : `&search=`;
     useEffect(() => {
@@ -63,7 +64,7 @@ const Home = () => {
         return <PizzaBlock key={pizza.id} {...pizza} />;
     });
 
-    const skeletons = [...Array(12)].map((_, index) => {
+    const skeletons = [...Array(number)].map((_, index) => {
         return <PizzaBlockSkeleton key={index} />;
     });
     return (
