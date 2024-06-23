@@ -22,7 +22,7 @@ const Search = () => {
 
     const returnFocusInputHandler = () => {
         inputRef.current.focus();
-        setValueSearch("");
+        setSearchState("");
     };
 
     return (
