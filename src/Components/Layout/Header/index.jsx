@@ -4,7 +4,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Search from "../Search/Search";
 import IconCartSvg from "../../Svg/IconCartSvg";
+import { useSelector } from "react-redux";
+
 const Header = () => {
+    const { items, totalPrice } = useSelector(state => state.cart);
     return (
         <header className="header">
             <div className="container">
@@ -20,10 +23,10 @@ const Header = () => {
                 <Search />
                 <div className="header__cart">
                     <Link to="/cart" className="button button--cart">
-                        <span className="total-amount">520 ₽</span>
+                        <span className="total-amount">{totalPrice} ₽</span>
                         <div className="button__delimiter"></div>
                         <IconCartSvg />
-                        <span>3</span>
+                        <span>{items.length}</span>
                     </Link>
                 </div>
             </div>

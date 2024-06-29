@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { FC } from "react";
 import Category from "./Category/Category";
-import SelectCategory from "../../SelectCategory/SelectCategory";
 
 const CATEGORIES = [
     { id: 0, title: "Все" },

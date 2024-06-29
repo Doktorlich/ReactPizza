@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import IconArrowSort from "../../../Svg/Arrow/IconArrowSort";
 
 // const LIST_SORT = ["популярности", "цене", "алфавиту"];
@@ -17,7 +17,7 @@ import { setSortName, setSortingValue, setVisibleElem } from "../../../../Redux/
 const Sorting = () => {
     const dispatch = useDispatch();
     const { visibleElem, sortingValue, sortName } = useSelector(state => state.filter);
-
+    const sortRef = useRef();
     //popup
     const showSortBlockHandler = function (event) {
         dispatch(setVisibleElem(!visibleElem));
@@ -26,9 +26,21 @@ const Sorting = () => {
     const valueChangeHandler = value => {
         dispatch(setSortingValue(value));
     };
+    useEffect(() => {
+        const clickOutside = event => {
+            if (!event.composedPath().includes(sortRef.current)) {
+                dispatch(setVisibleElem(false));
+            }
+        };
+        document.body.addEventListener("click", clickOutside);
+
+        return () => {
+            document.body.removeEventListener("click", clickOutside);
+        };
+    }, []);
 
     return (
-        <div className="sort">
+        <div ref={sortRef} className="sort">
             <div className="sort__label">
                 <b>Сортировка по:</b>
                 <span onClick={showSortBlockHandler}>{sortName}</span>
@@ -50,6 +62,4 @@ const Sorting = () => {
 };
 
 export default Sorting;
-// rating - популярности
-// price  - цене
-// title - алфавиту
+

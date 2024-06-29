@@ -8,7 +8,7 @@ import Pagination from "../Pagination/Pagination";
 import SearchContext from "../../Storage/SearchContext";
 //клиент-серверная библиотека для выполнения HTTP-запросов
 import axios from "axios";
-import debounce from "lodash.debounce";
+
 import { useSelector, useDispatch } from "react-redux";
 import { setFilterValue, setFilters, setPagCurrent } from "../../Redux/slices/filterSlice";
 import qs from "qs";
@@ -21,6 +21,7 @@ const PROPERTIES_SORT = [
     { sortOrder: "asc", title: "title" },
     { sortOrder: "desc", title: "title" },
 ];
+
 const Home = () => {
     const navigate = useNavigate();
     const { valueSearch } = useContext(SearchContext);
@@ -42,14 +43,14 @@ const Home = () => {
     useEffect(() => {
         if (window.location.search) {
             const params = qs.parse(window.location.search.substring(1));
-            console.log(params);
+
             // console.log("spread", ...params);
             dispatch(
                 setFilters({
                     ...params,
                 }),
             );
-            isSearch.current = false;
+            isSearch.current = true;
         }
 
         // return () => {};
@@ -73,16 +74,18 @@ const Home = () => {
             .catch(error => {
                 console.log("error", error);
             });
-        window.scrollTo(0, 0);
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         if (!isSearch.current) {
             fetchPizzas();
         }
         isSearch.current = false;
     }, [filterValue, sortingValue, valueSearch, pagCurrent]);
+
     // ! работа с адресной строкой браузера через библиотеку QS
+
     useEffect(() => {
         if (isMounted.current) {
             const queryString = qs.stringify({
@@ -94,10 +97,11 @@ const Home = () => {
 
             navigate(`?${queryString}`);
         }
-
         isMounted.current = true;
+
         // return () => {};
     }, [filterValue, sortingValue, valueSearch, pagCurrent]);
+
     // ! другая логика
 
     const pizzaItems = DataPerPage.map(pizza => {
