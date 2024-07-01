@@ -12,6 +12,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setFilterValue, setFilters, setPagCurrent } from "../../Redux/slices/filterSlice";
 import qs from "qs";
+import { setItems } from "../../Redux/slices/pizzaSlice";
 
 const PROPERTIES_SORT = [
     { sortOrder: "asc", title: "rating" },
@@ -30,9 +31,10 @@ const Home = () => {
     const isMounted = useRef(false);
     // логика redux для категорий
     const { filterValue, sortingValue, pagCurrent } = useSelector(state => state.filter);
+    const { items } = useSelector(state => state.pizzaElement);
 
     // состояния для работы с fetch
-    const [items, setItems] = useState([]);
+    // const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     // ! ПАГИНАЦИЯ
     const number = 4;
@@ -56,20 +58,21 @@ const Home = () => {
         // return () => {};
     }, []);
     // ! работа с AXIOS
-    const url = "https://666001a65425580055b1b88f.mockapi.io/items";
-    const search = valueSearch ? `&search=${valueSearch}` : `&search=`;
 
     const fetchPizzas = async () => {
         try {
+            const url = "https://666001a65425580055b1b88f.mockapi.io/items";
+            const search = valueSearch ? `&search=${valueSearch}` : `&search=`;
             const response = await axios.get(
                 filterValue == 0
                     ? url + `?order=${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}` + search
                     : url + `?${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}&category=${filterValue}` + search,
             );
-            setItems(response.data);
-            setIsLoading(false);
+            dispatch(setItems(response.data));
         } catch (error) {
             console.log("ERROR", error);
+            setIsLoading(false);
+        } finally {
             setIsLoading(false);
         }
     };
