@@ -5,7 +5,7 @@ import { addProduct } from "../../../Redux/slices/cartSlice";
 const PizzaBlock = ({ id, title, price, imageUrl, sizes, types, rating }) => {
     const [activeSizePizza, setActiveSizePizza] = useState(0);
     const [activeTypesPizza, setActiveTypesPizza] = useState(0);
-    const { items, totalAmount } = useSelector(state => state.cart);
+
     const dispatch = useDispatch();
 
     const typesName = ["тонкое", "традиционное"];
@@ -45,6 +45,7 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types, rating }) => {
                         />
                     </svg>
                     <span>Добавить</span>
+                   
                 </button>
             </div>
         </li>

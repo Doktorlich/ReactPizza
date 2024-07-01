@@ -59,21 +59,19 @@ const Home = () => {
     const url = "https://666001a65425580055b1b88f.mockapi.io/items";
     const search = valueSearch ? `&search=${valueSearch}` : `&search=`;
 
-    const fetchPizzas = () => {
-        setIsLoading(true);
-        axios
-            .get(
+    const fetchPizzas = async () => {
+        try {
+            const response = await axios.get(
                 filterValue == 0
                     ? url + `?order=${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}` + search
                     : url + `?${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}&category=${filterValue}` + search,
-            )
-            .then(res => {
-                setItems(res.data);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.log("error", error);
-            });
+            );
+            setItems(response.data);
+            setIsLoading(false);
+        } catch (error) {
+            console.log("ERROR", error);
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => {

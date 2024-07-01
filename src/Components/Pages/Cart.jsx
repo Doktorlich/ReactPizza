@@ -4,13 +4,24 @@ import { Link } from "react-router-dom";
 import IconCartSvg from "../Svg/IconCartSvg";
 import IconCartBoxSvg from "../Svg/IconCartBoxSvg";
 import IconArrowSvg from "../Svg/Arrow/IconArrowSvg";
-import IconMinusSvg from "../Svg/IconMinusSvg";
-import IconPlusSvg from "../Svg/IconPlusSvg";
-import IconCrossSvg from "../Svg/IconCrossSvg";
-import { useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import { clearItems } from "../../Redux/slices/cartSlice";
+import NotFoundBlock from "../Layout/NotFoundBlock/NotFoundBlock";
+import CartItem from "../Layout/CartItem/CartItem";
 
 const Cart = () => {
-    const { items, totalPrice } = useSelector(state => state.cart);
+    const { items, totalPrice, count } = useSelector(state => state.cart);
+    const dispatch = useDispatch();
+    const clearCartHandler = () => {
+        if (window.confirm("Вы хотите полностью очистить список товаров из корзины?")) {
+            dispatch(clearItems(""));
+        }
+    };
+    if (totalPrice === 0) {
+        return <NotFoundBlock />;
+    }
     return (
         <section className="container container--cart">
             <div className="cart">
@@ -21,57 +32,23 @@ const Cart = () => {
                         Корзина
                     </h2>
                     {/* картинка-кнопка по очистке всей корзины */}
-                    <button className="cart__clear">
+                    <button className="cart__clear" onClick={clearCartHandler}>
                         <IconCartBoxSvg />
                         <span>Очистить корзину</span>
                     </button>
                 </div>
 
                 <ul className="content-cart__items">
-                    <li className="cart__item">
-                        <div className="cart__item-img">
-                            {/* картинка пиццы */}
-                            <img
-                                className="pizza-block__image"
-                                src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                                alt="Pizza"
-                            />
-                        </div>
-                        {/* параметры пицц: title,sizes,types */}
-                        <div className="cart__item-info">
-                            <h3>Сырный цыпленок</h3>
-                            <p>тонкое тесто, 26 см.</p>
-                        </div>
-                        <div className="cart__item-count">
-                            {/* прибавить пиццу */}
-                            <div className="button button--outline button--circle cart__item-count-minus">
-                                <IconMinusSvg />
-                            </div>
-                            {/* количество пицц */}
-                            <b>2</b>
-                            {/* убавить количество пицц */}
-                            <div className="button button--outline button--circle cart__item-count-plus">
-                                <IconPlusSvg />
-                            </div>
-                        </div>
-                        {/* элемент с ценой пиццы */}
-                        <div className="cart__item-price">
-                            <b>770 ₽</b>
-                        </div>
-                        {/* иконка удаления элемента */}
-                        <div className="cart__item-remove">
-                            <div className="button button--outline button--circle">
-                                <IconCrossSvg />
-                            </div>
-                        </div>
-                    </li>
+                    {items.map(item => {
+                        return <CartItem key={item.id} {...item} />;
+                    })}
                 </ul>
 
                 <div className="cart__bottom">
                     <div className="cart__bottom-details">
                         {/* общее количество пицц */}
                         <span>
-                            Всего пицц: <b>{items.length} шт.</b>
+                            Всего пицц: <b>{count} шт.</b>
                         </span>
                         {/* сумма в деньгах пицц */}
                         <span>

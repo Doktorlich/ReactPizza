@@ -7,7 +7,7 @@ import IconCartSvg from "../../Svg/IconCartSvg";
 import { useSelector } from "react-redux";
 
 const Header = () => {
-    const { items, totalPrice } = useSelector(state => state.cart);
+    const { items, totalPrice, count } = useSelector(state => state.cart);
     return (
         <header className="header">
             <div className="container">
@@ -26,7 +26,7 @@ const Header = () => {
                         <span className="total-amount">{totalPrice} ₽</span>
                         <div className="button__delimiter"></div>
                         <IconCartSvg />
-                        <span>{items.length}</span>
+                        <span>{count}</span>
                     </Link>
                 </div>
             </div>

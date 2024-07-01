@@ -1,5 +1,6 @@
 import { FC } from "react";
 import Category from "./Category/Category";
+import { useDispatch } from "react-redux";
 
 const CATEGORIES = [
     { id: 0, title: "Все" },
@@ -10,8 +11,9 @@ const CATEGORIES = [
     { id: 5, title: "Закрытые" },
 ];
 const Filter = ({ onValueChange, filterValue, setPagCurrent }) => {
+    const dispatch = useDispatch();
     const changeCategoryHandler = function (event) {
-        setPagCurrent("1");
+        dispatch(setPagCurrent("1"));
         if (event.target.hasAttribute("id")) {
             onValueChange(event.target.id);
         }
