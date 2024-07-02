@@ -7,6 +7,6 @@
     "semi": true,
     "tabWidth": 4,
     "useTabs": false,
-    "arrowParens": "avoid",
+    "arrowParens": "always",
     "endOfLine": "auto"
 }

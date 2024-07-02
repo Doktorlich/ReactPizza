@@ -5,9 +5,11 @@
   
 ## Используемые технологии
   1) React;
-  2) Vite;
-  3) SCSS;
-  4) Eslint;
-  5) Prettier
-  6) Git
+  2) Redux Toolkit
+  3) Vite;
+  4) SCSS;
+  5) Eslint;
+  6) Prettier
+  7) Git
+   
 

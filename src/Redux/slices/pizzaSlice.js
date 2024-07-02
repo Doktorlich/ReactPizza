@@ -1,8 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
     items: [],
+    status: "loading",
 };
+
+const type = "pizzaElement/fetchPizzaElementStatus";
+const callback = async (parametrs, thunkApi) => {
+    const { PROPERTIES_SORT, filterValue, sortingValue, url, search } = parametrs;
+    const response = await axios.get(
+        filterValue == 0
+            ? url + `?order=${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}` + search
+            : url + `?${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}&category=${filterValue}` + search,
+    );
+    return response.data;
+};
+const options = {};
+
+export const fetchPizzaElement = createAsyncThunk(type, callback, options);
 
 const pizzaSlice = createSlice({
     name: "pizzaElement",
@@ -11,7 +27,24 @@ const pizzaSlice = createSlice({
         setItems(state, action) {
             state.items = action.payload;
         },
+        setIsLoading(state, action) {
+            state.items = action.payload;
+        },  
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchPizzaElement.pending, (state) => {
+            state.items = [];
+            state.status = "loading";
+        });
+        builder.addCase(fetchPizzaElement.fulfilled, (state, action) => {
+            state.items = action.payload;
+            state.status = "success";
+        });
+        builder.addCase(fetchPizzaElement.rejected, (state) => {
+            state.status = "ERROR";
+            state.items = [];
+        });
     },
 });
-export const { setItems } = pizzaSlice.actions;
+export const { setItems, setIsLoading } = pizzaSlice.actions;
 export default pizzaSlice.reducer;

@@ -5,14 +5,11 @@ import PizzaBlock from "../Layout/PizzaBlock";
 import PizzaBlockSkeleton from "../Skeleton/PizzaBlockSkeleton";
 import Sorting from "../Layout/Sort/Sorting/Sorting";
 import Pagination from "../Pagination/Pagination";
-import SearchContext from "../../Storage/SearchContext";
-//клиент-серверная библиотека для выполнения HTTP-запросов
-import axios from "axios";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setFilterValue, setFilters, setPagCurrent } from "../../Redux/slices/filterSlice";
 import qs from "qs";
-import { setItems } from "../../Redux/slices/pizzaSlice";
+import { setItems, fetchPizzaElement } from "../../Redux/slices/pizzaSlice";
 
 const PROPERTIES_SORT = [
     { sortOrder: "asc", title: "rating" },
@@ -25,17 +22,17 @@ const PROPERTIES_SORT = [
 
 const Home = () => {
     const navigate = useNavigate();
-    const { valueSearch } = useContext(SearchContext);
+    const { valueSearch } = useSelector((state) => state.search);
     const dispatch = useDispatch();
     const isSearch = useRef(false);
     const isMounted = useRef(false);
     // логика redux для категорий
-    const { filterValue, sortingValue, pagCurrent } = useSelector(state => state.filter);
-    const { items } = useSelector(state => state.pizzaElement);
+    const { filterValue, sortingValue, pagCurrent } = useSelector((state) => state.filter);
+    const { items, status: isLoading } = useSelector((state) => state.pizzaElement);
 
     // состояния для работы с fetch
     // const [items, setItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    // const [isLoading, setIsLoading] = useState(true);
     // ! ПАГИНАЦИЯ
     const number = 4;
     const amountPages = Math.ceil(items.length / number);
@@ -60,21 +57,10 @@ const Home = () => {
     // ! работа с AXIOS
 
     const fetchPizzas = async () => {
-        try {
-            const url = "https://666001a65425580055b1b88f.mockapi.io/items";
-            const search = valueSearch ? `&search=${valueSearch}` : `&search=`;
-            const response = await axios.get(
-                filterValue == 0
-                    ? url + `?order=${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}` + search
-                    : url + `?${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}&category=${filterValue}` + search,
-            );
-            dispatch(setItems(response.data));
-        } catch (error) {
-            console.log("ERROR", error);
-            setIsLoading(false);
-        } finally {
-            setIsLoading(false);
-        }
+        const url = "https://666001a65425580055b1b88f.mockapi.io/items";
+        const search = valueSearch ? `&search=${valueSearch}` : `&search=`;
+
+        dispatch(fetchPizzaElement({ PROPERTIES_SORT, filterValue, sortingValue, pagCurrent, valueSearch, url, search }));
     };
 
     useEffect(() => {
@@ -105,7 +91,7 @@ const Home = () => {
 
     // ! другая логика
 
-    const pizzaItems = DataPerPage.map(pizza => {
+    const pizzaItems = DataPerPage.map((pizza) => {
         return <PizzaBlock key={pizza.id} {...pizza} />;
     });
 
@@ -115,13 +101,13 @@ const Home = () => {
     return (
         <div className="container">
             <div className="content__top">
-                <Filter onValueChange={id => dispatch(setFilterValue(id))} filterValue={filterValue} setPagCurrent={setPagCurrent} />
+                <Filter onValueChange={(id) => dispatch(setFilterValue(id))} filterValue={filterValue} setPagCurrent={setPagCurrent} />
 
                 <Sorting />
             </div>
             <h2 className="content__title">Все пиццы</h2>
 
-            <ul className="content__items">{isLoading ? skeletons : pizzaItems}</ul>
+            <ul className="content__items">{isLoading == "loading" ? skeletons : pizzaItems}</ul>
             <Pagination amountPages={amountPages} pagCurrent={pagCurrent} setPagCurrent={setPagCurrent} endIndex={endIndex} />
         </div>
     );

@@ -1,14 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "./Search.module.scss";
-import SearchContext from "../../../Storage/SearchContext";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchState, setValueSearch } from "../../../Redux/slices/searchSlice";
 
 const Search = () => {
-    const { valueSearch, setValueSearch } = useContext(SearchContext);
-    const [searchState, setSearchState] = useState("");
+    const dispatch = useDispatch();
+    const { valueSearch, searchState } = useSelector((state) => state.search);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            setValueSearch(searchState);
+            dispatch(setValueSearch(searchState));
         }, 500);
 
         return () => clearTimeout(timeout);
@@ -17,12 +19,12 @@ const Search = () => {
     const inputRef = useRef();
 
     const changeValueSearchHandler = function (event) {
-        setSearchState(event.target.value);
+        dispatch(setSearchState(event.target.value));
     };
 
     const returnFocusInputHandler = () => {
         inputRef.current.focus();
-        setSearchState("");
+        dispatch(setSearchState(""));
     };
 
     return (
