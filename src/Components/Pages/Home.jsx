@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Filter from "../Layout/Sort/Filter/Filter";
 import PizzaBlock from "../Layout/PizzaBlock";
 import PizzaBlockSkeleton from "../Skeleton/PizzaBlockSkeleton";
@@ -57,10 +57,9 @@ const Home = () => {
     // ! работа с AXIOS
 
     const fetchPizzas = async () => {
-        const url = "https://666001a65425580055b1b88f.mockapi.io/items";
         const search = valueSearch ? `&search=${valueSearch}` : `&search=`;
 
-        dispatch(fetchPizzaElement({ PROPERTIES_SORT, filterValue, sortingValue, pagCurrent, valueSearch, url, search }));
+        dispatch(fetchPizzaElement({ PROPERTIES_SORT, filterValue, sortingValue, pagCurrent, valueSearch, search }));
     };
 
     useEffect(() => {
@@ -98,6 +97,7 @@ const Home = () => {
     const skeletons = [...Array(number)].map((_, index) => {
         return <PizzaBlockSkeleton key={index} />;
     });
+
     return (
         <div className="container">
             <div className="content__top">

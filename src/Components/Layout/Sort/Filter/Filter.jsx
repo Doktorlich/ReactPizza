@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Category from "./Category/Category";
 import { useDispatch } from "react-redux";
+import { setSearchState } from "../../../../Redux/slices/searchSlice";
 
 const CATEGORIES = [
     { id: 0, title: "Все" },
@@ -12,8 +13,11 @@ const CATEGORIES = [
 ];
 const Filter = ({ onValueChange, filterValue, setPagCurrent }) => {
     const dispatch = useDispatch();
+
     const changeCategoryHandler = function (event) {
         dispatch(setPagCurrent("1"));
+
+        // dispatch(setSearchState(""));
         if (event.target.hasAttribute("id")) {
             onValueChange(event.target.id);
         }
@@ -24,7 +28,7 @@ const Filter = ({ onValueChange, filterValue, setPagCurrent }) => {
         <>
             <div className="categories">
                 <ul className="ul-filter" onClick={changeCategoryHandler}>
-                    {CATEGORIES.map(category => (
+                    {CATEGORIES.map((category) => (
                         <Category
                             key={category.id}
                             id={category.id}

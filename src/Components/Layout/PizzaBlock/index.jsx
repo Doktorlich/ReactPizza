@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../../Redux/slices/cartSlice";
+import { Link } from "react-router-dom";
 
 const PizzaBlock = ({ id, title, price, imageUrl, sizes, types, rating }) => {
     const [activeSizePizza, setActiveSizePizza] = useState(0);
@@ -17,7 +18,9 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types, rating }) => {
 
     return (
         <li className="pizza-block">
-            <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+            <Link to={`/pizza/${id}`}>
+                <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+            </Link>
             <h4 className="pizza-block__title">{title}</h4>
             <div className="pizza-block__selector">
                 <ul>
@@ -35,6 +38,7 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types, rating }) => {
                     ))}
                 </ul>
             </div>
+
             <div className="pizza-block__bottom">
                 <p className="pizza-block__price">от {price} ₽</p>
                 <button className="button button--outline button--add" onClick={addProductHandler}>
@@ -45,7 +49,6 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types, rating }) => {
                         />
                     </svg>
                     <span>Добавить</span>
-                   
                 </button>
             </div>
         </li>

@@ -7,13 +7,15 @@ const initialState = {
 };
 
 const type = "pizzaElement/fetchPizzaElementStatus";
-const callback = async (parametrs, thunkApi) => {
-    const { PROPERTIES_SORT, filterValue, sortingValue, url, search } = parametrs;
+const callback = async (parametrs) => {
+    const { PROPERTIES_SORT, filterValue, sortingValue, search } = parametrs;
+    const url = "https://666001a65425580055b1b88f.mockapi.io/items";
     const response = await axios.get(
         filterValue == 0
             ? url + `?order=${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}` + search
             : url + `?${PROPERTIES_SORT[+sortingValue].sortOrder}&orderBy=${PROPERTIES_SORT[+sortingValue].title}&category=${filterValue}` + search,
     );
+
     return response.data;
 };
 const options = {};
@@ -29,7 +31,7 @@ const pizzaSlice = createSlice({
         },
         setIsLoading(state, action) {
             state.items = action.payload;
-        },  
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchPizzaElement.pending, (state) => {

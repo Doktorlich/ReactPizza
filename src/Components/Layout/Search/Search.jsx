@@ -7,7 +7,7 @@ import { setSearchState, setValueSearch } from "../../../Redux/slices/searchSlic
 const Search = () => {
     const dispatch = useDispatch();
     const { valueSearch, searchState } = useSelector((state) => state.search);
-
+    const { status } = useSelector((state) => state.pizzaElement);
     useEffect(() => {
         const timeout = setTimeout(() => {
             dispatch(setValueSearch(searchState));
@@ -26,7 +26,7 @@ const Search = () => {
         inputRef.current.focus();
         dispatch(setSearchState(""));
     };
-
+ 
     return (
         <div className={styled["search-block"]}>
             <svg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg" className={styled.search}>
